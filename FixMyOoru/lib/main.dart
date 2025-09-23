@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fixmyooru/screens/login_register_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // --- THEME DATA (No changes) ---
 final _lightColorScheme = ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4), brightness: Brightness.light);
@@ -38,12 +39,11 @@ class MyApp extends StatelessWidget {
       darkTheme: getAppTheme(_darkColorScheme, context),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-      home: const AuthWrapper(), // Start with the AuthWrapper
+      home: const AuthWrapper(),
     );
   }
 }
 
-// ** NEW WIDGET: Checks session on startup and acts as a loading screen **
 class AuthWrapper extends StatefulWidget {
   const AuthWrapper({super.key});
   @override
@@ -58,9 +58,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
   }
 
   Future<void> _initializeSession() async {
-    // Load the user from storage
     await UserSessionService().loadUserFromStorage();
-    // After attempting to load, navigate to the main screen
     if (mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MapScreen()),
@@ -70,14 +68,12 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    // Show a loading spinner while the session is being checked
     return const Scaffold(
       body: Center(child: CircularProgressIndicator()),
     );
   }
 }
 
-// --- THE REST OF THE FILE (MapScreen, etc.) REMAINS THE SAME ---
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
   @override
@@ -91,13 +87,56 @@ class _MapScreenState extends State<MapScreen> with SingleTickerProviderStateMix
   bool _locationPermissionGranted = false;
   late AnimationController _panelAnimationController;
   MapType _currentMapType = MapType.normal;
+
+  // NEW: State variable to hold the map markers
+  Set<Marker> _markers = {};
+
   @override
   void initState() {
     super.initState();
     _panelAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
     rootBundle.loadString('assets/map_style.json').then((string) => _darkMapStyle = string);
     _checkLocationPermission();
+
+    // NEW: Start listening for live issue updates from Firestore
+    _listenForLiveIssues();
   }
+
+  // NEW: Method to listen for real-time data and create markers
+  void _listenForLiveIssues() {
+    FirebaseFirestore.instance
+        .collection('issues')
+        .where('status', whereIn: ['Approved', 'InProgress'])
+        .snapshots()
+        .listen((snapshot) {
+      if (!mounted) return;
+
+      final newMarkers = snapshot.docs.map((doc) {
+        final data = doc.data();
+        final geoPoint = data['location'] as GeoPoint;
+        final position = LatLng(geoPoint.latitude, geoPoint.longitude);
+
+        return Marker(
+          markerId: MarkerId(doc.id),
+          position: position,
+          infoWindow: InfoWindow(
+            title: data['issueType'] ?? 'Unknown Issue',
+            snippet: 'Status: ${data['status']}',
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+              data['status'] == 'InProgress'
+                  ? BitmapDescriptor.hueOrange
+                  : BitmapDescriptor.hueYellow
+          ),
+        );
+      }).toSet();
+
+      setState(() {
+        _markers = newMarkers;
+      });
+    });
+  }
+
   @override
   void dispose() {
     _panelAnimationController.dispose();
@@ -152,6 +191,8 @@ class _MapScreenState extends State<MapScreen> with SingleTickerProviderStateMix
       body: Stack(
         children: [
           GoogleMap(
+            // UPDATED: Add the markers to the map
+            markers: _markers,
             initialCameraPosition: const CameraPosition(target: LatLng(12.9716, 77.5946), zoom: 12.0),
             mapType: _currentMapType,
             onCameraMoveStarted: () => _panelAnimationController.forward(),
@@ -174,6 +215,8 @@ class _MapScreenState extends State<MapScreen> with SingleTickerProviderStateMix
       ),
     );
   }
+
+  // --- The rest of the _build methods are unchanged ---
   Widget _buildTopCombinedPanel() {
     final screenHeight = MediaQuery.of(context).size.height;
     final collapsedHeight = 77.0 + MediaQuery.of(context).padding.top;

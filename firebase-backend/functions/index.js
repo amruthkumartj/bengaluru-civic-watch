@@ -6,82 +6,96 @@ admin.initializeApp();
 
 exports.createAuthority = onCall(async (request) => {
   if (request.auth.token.role !== "superadmin") {
-    throw new HttpsError(
-        "permission-denied",
-        "You must be a superadmin to perform this action.",
-    );
+    throw new HttpsError("permission-denied", "Must be a superadmin.");
   }
-
   const {email, name, phone, zone} = request.data;
   if (!email || !name || !zone) {
-    throw new HttpsError(
-        "invalid-argument",
-        "Missing required fields: email, name, zone.",
-    );
+    throw new HttpsError("invalid-argument", "Missing required fields.");
   }
-
   try {
-    const userRecord = await admin.auth().createUser({
-      email: email,
-      displayName: name,
-    });
-
+    // eslint-disable-next-line max-len
+    const userRecord = await admin.auth().createUser({email, displayName: name});
     await admin.auth().setCustomUserClaims(userRecord.uid, {
       role: "authority",
       zone: zone,
-      passwordSet: false,
     });
-
     await admin.firestore().collection("authorities").doc(userRecord.uid).set({
-      name: name,
-      email: email,
-      phone: phone || null,
-      zone: zone,
+      name, email, zone, phone: phone || null,
     });
-
-    return {result: `Successfully created authority ${name} (${email}).`};
+    return {result: `Successfully created authority ${name}.`};
   } catch (error) {
-    console.error("Error creating new authority:", error);
     throw new HttpsError("internal", "Could not create authority.");
   }
 });
 
 exports.sendOtpEmail = onCall(async (request) => {
-  const recipientEmail = request.data.email;
-
-  if (!recipientEmail) {
-    throw new HttpsError(
-        "invalid-argument",
-        "The function requires an 'email' argument.",
-    );
+  const {email} = request.data;
+  if (!email) {
+    throw new HttpsError("invalid-argument", "Email is required.");
   }
-
-  const gmailEmail = process.env.GMAIL_EMAIL;
-  const gmailPassword = process.env.GMAIL_PASSWORD;
-
   const mailTransport = nodemailer.createTransport({
     service: "gmail",
-    auth: {
-      user: gmailEmail,
-      pass: gmailPassword,
-    },
+    auth: {user: process.env.GMAIL_EMAIL, pass: process.env.GMAIL_PASSWORD},
   });
-
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  const mailOptions = {
-    from: `Bengaluru Civic Watch <${gmailEmail}>`,
-    to: recipientEmail,
+  await mailTransport.sendMail({
+    from: `Bengaluru Civic Watch <${process.env.GMAIL_EMAIL}>`,
+    to: email,
     subject: "Your Verification Code",
     text: `Your OTP is: ${otp}`,
-  };
-
-  try {
-    await mailTransport.sendMail(mailOptions);
-    console.log(`OTP email sent to ${recipientEmail}`);
-    return {otp: otp};
-  } catch (error) {
-    console.error("Error sending email:", error);
-    throw new HttpsError("internal", "Could not send email.");
-  }
+  });
+  return {otp};
 });
 
+exports.resolveIssue = onCall(async (request) => {
+  // eslint-disable-next-line max-len
+  if (request.auth.token.role !== "authority" && request.auth.token.role !== "superadmin") {
+    throw new HttpsError("permission-denied", "Must be an admin/authority.");
+  }
+  const {issueId, resolutionDetails} = request.data;
+  if (!issueId) {
+    throw new HttpsError("invalid-argument", "Issue ID is required.");
+  }
+  const db = admin.firestore();
+  const issueRef = db.collection("issues").doc(issueId);
+  const resolvedIssueRef = db.collection("resolved_issues").doc(issueId);
+
+  return db.runTransaction(async (transaction) => {
+    const issueDoc = await transaction.get(issueRef);
+    if (!issueDoc.exists) {
+      throw new HttpsError("not-found", "Issue not found.");
+    }
+    const issueData = issueDoc.data();
+    const resolvedData = {
+      ...issueData,
+      status: "Resolved",
+      resolvedAt: new Date(),
+      resolvedBy: request.auth.uid,
+      resolutionDetails: resolutionDetails || "Issue marked as resolved.",
+    };
+    transaction.set(resolvedIssueRef, resolvedData);
+    transaction.delete(issueRef);
+    return {result: "Issue successfully resolved and archived."};
+  });
+});
+
+exports.getUserDetails = onCall(async (request) => {
+  // eslint-disable-next-line max-len
+  if (request.auth.token.role !== "authority" && request.auth.token.role !== "superadmin") {
+    throw new HttpsError("permission-denied", "Must be an admin/authority.");
+  }
+  const {userId} = request.data;
+  if (!userId) {
+    throw new HttpsError("invalid-argument", "User ID is required.");
+  }
+  try {
+    // eslint-disable-next-line max-len
+    const userDoc = await admin.firestore().collection("users").doc(userId).get();
+    if (!userDoc.exists) {
+      throw new HttpsError("not-found", "User not found.");
+    }
+    return userDoc.data();
+  } catch (error) {
+    throw new HttpsError("internal", "Could not fetch user details.");
+  }
+});

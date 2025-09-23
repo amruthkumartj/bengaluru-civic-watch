@@ -1,38 +1,43 @@
 rules_version = '2';
 service cloud.firestore {
-match /databases/{database}/documents {
+  match /databases/{database}/documents {
 
-// Public users collection: a user can only edit their own document.
-match /users/{userId} {
-  allow read: if request.auth != null;
-  allow write: if request.auth != null && request.auth.uid == userId;
-}
+    // Helper functions for cleaner rules
+    function isSuperAdmin() {
+      return request.auth.token.role == 'superadmin';
+    }
+    function isAuthority() {
+      return request.auth.token.role == 'authority';
+    }
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
 
-// Authorities collection: only a superadmin can create new authorities.
-// An authority can read their own profile.
-match /authorities/{userId} {
-  allow read: if request.auth != null && (request.auth.uid == userId || request.auth.token.role == 'superadmin');
-  allow create: if request.auth.token.role == 'superadmin';
-  allow update: if request.auth.token.role == 'superadmin';
-}
+    // Citizen user profiles
+    match /users/{userId} {
+      allow read: if isAuthority() || isSuperAdmin() || isOwner(userId);
+      allow write: if isOwner(userId);
+    }
 
-// Issues collection: This is the core logic.
-match /issues/{issueId} {
-  // Anyone authenticated (citizens, authorities) can read issues.
-  allow read: if request.auth != null;
+    // Authority user profiles
+    match /authorities/{userId} {
+      allow read: if isSuperAdmin() || isOwner(userId);
+      allow create, update: if isSuperAdmin();
+    }
 
-  // Only citizens (who don't have a role claim) can create issues.
-  allow create: if request.auth != null && !exists(request.auth.token.role);
+    // Active issues collection
+    match /issues/{issueId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null; // Rule fixed based on your feedback
+      allow update: if isAuthority() || isSuperAdmin();
+      allow delete: if isAuthority() || isSuperAdmin(); // Allows rejection
+    }
 
-  // An authority can ONLY update issues that are in their assigned zone.
-  // A superadmin can update any issue.
-  allow update: if request.auth != null &&
-                ( (request.auth.token.role == 'authority' && request.auth.token.zone == resource.data.issueZone) ||
-                  request.auth.token.role == 'superadmin' );
-
-  // No one can delete issues for now to maintain a record.
-  allow delete: if false;
-}
-
-}
+    // Archived issues collection
+    match /resolved_issues/{issueId} {
+      allow read: if isAuthority() || isSuperAdmin();
+      allow create: if isAuthority() || isSuperAdmin(); // Allows archiving
+      allow write: if false; // Nobody can edit an archive entry
+    }
+  }
 }

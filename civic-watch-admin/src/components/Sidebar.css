@@ -1,0 +1,113 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--md-sys-color-surface-container-high);
+  padding: 16px;
+  border-right: 1px solid var(--md-sys-color-outline-variant);
+  transition: width 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+}
+.sidebar.open {
+  width: 280px;
+}
+.sidebar.closed {
+  width: 80px;
+  padding: 16px 8px;
+}
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.sidebar-logo {
+  color: var(--md-sys-color-primary);
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.sidebar-header-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface);
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.sidebar.closed .sidebar-header-text {
+  opacity: 0;
+  pointer-events: none;
+}
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 100px;
+  text-decoration: none;
+  color: var(--md-sys-color-on-surface-variant);
+  font-weight: 500;
+  margin-bottom: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.sidebar.closed .nav-link {
+  justify-content: center;
+  padding: 12px;
+}
+.nav-link:hover {
+  background-color: var(--md-sys-color-surface-variant);
+}
+.nav-link.active {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  font-weight: 700;
+}
+.nav-label {
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.sidebar.closed .nav-label {
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: 100px;
+  background-color: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+.logout-button:hover {
+  background-color: var(--md-sys-color-surface-variant);
+}
+.sidebar.closed .logout-button {
+  width: 48px;
+  height: 48px;
+}
