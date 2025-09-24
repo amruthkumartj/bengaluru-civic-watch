@@ -6,7 +6,7 @@
      <img src="https://img.shields.io/github/languages/top/amruthkumartj/bengaluru-civic-watch" alt="Top Language"/>
      <img src="https://img.shields.io/github/languages/count/amruthkumartj/bengaluru-civic-watch" alt="Languages"/>
      <img src="https://img.shields.io/github/stars/amruthkumartj/bengaluru-civic-watch?style=social" alt="Stars"/>
-     <img src="https://img.shields.io/github/license/amruthkumartj/bengaluru-civic-watch" alt="License.md"/>
+     <img src="https://img.shields.io/github/license/amruthkumartj/studentperformancetracking" alt="license"/>
   </p>
   <p>Built with:
     <img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white"/>
