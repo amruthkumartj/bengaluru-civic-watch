@@ -20,6 +20,7 @@
 ---
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -32,11 +33,13 @@
 ---
 
 ## Overview
+
 Bengaluru Civic Watch is a platform to report, track, and resolve civic issues in Bengaluru. It empowers citizens and authorities to collaborate for a better city.
 
 ---
 
 ## Features
+
 - Report civic issues with location and images
 - Real-time issue tracking and status updates
 - Admin and authority dashboards
@@ -46,6 +49,7 @@ Bengaluru Civic Watch is a platform to report, track, and resolve civic issues i
 ---
 
 ## Tech Stack
+
 - **Frontend:** React.js (`civic-watch-admin`)
 - **Backend:** Firebase Functions (`firebase-backend`)
 - **Mobile:** Flutter (`FixMyOoru`)
@@ -56,11 +60,13 @@ Bengaluru Civic Watch is a platform to report, track, and resolve civic issues i
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js & npm
 - Flutter SDK
 - Firebase account
 
 ### Installation
+
 ```bash
 # Clone the repo
 git clone https://github.com/amruthkumartj/bengaluru-civic-watch.git
@@ -80,6 +86,7 @@ flutter pub get
 ```
 
 ### Running Locally
+
 - **Frontend:**
   ```bash
   cd civic-watch-admin
@@ -98,21 +105,25 @@ flutter pub get
 
 ---
 
-## Screenshots
+## Screenshots :camera:
+
 > _Add screenshots here_
 
 ---
 
 ## Contributing
+
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ---
 
 ## License
+
 [MIT](LICENSE)
 
 ---
 
 ## Contact
+
 - GitHub: [amruthkumartj](https://github.com/amruthkumartj)
 - Email: amruthkumartj@gmail.com
