@@ -2,11 +2,11 @@
   <h1><b>Bengaluru Civic Watch</b></h1>
   <p><i>Empowering Citizens, Transforming Bengaluru</i></p>
   <p>
-    <b>Last Commit:</b> <img src="https://img.shields.io/github/last-commit/amruthkumartj/bengaluru-civic-watch" alt="Last Commit"/>
-    <b>Top Language:</b> <img src="https://img.shields.io/github/languages/top/amruthkumartj/bengaluru-civic-watch" alt="Top Language"/>
-    <b>Languages:</b> <img src="https://img.shields.io/github/languages/count/amruthkumartj/bengaluru-civic-watch" alt="Languages"/>
-    <b>Stars:</b> <img src="https://img.shields.io/github/stars/amruthkumartj/bengaluru-civic-watch?style=social" alt="Stars"/>
-    <b>License:</b> <img src="https://img.shields.io/github/license/amruthkumartj/bengaluru-civic-watch" alt="License"/>
+    <img src="https://img.shields.io/github/last-commit/amruthkumartj/bengaluru-civic-watch" alt="Last Commit"/>
+     <img src="https://img.shields.io/github/languages/top/amruthkumartj/bengaluru-civic-watch" alt="Top Language"/>
+     <img src="https://img.shields.io/github/languages/count/amruthkumartj/bengaluru-civic-watch" alt="Languages"/>
+     <img src="https://img.shields.io/github/stars/amruthkumartj/bengaluru-civic-watch?style=social" alt="Stars"/>
+     <img src="https://img.shields.io/github/license/amruthkumartj/bengaluru-civic-watch" alt="License.md"/>
   </p>
   <p>Built with:
     <img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white"/>
