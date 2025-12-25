@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for cleaner rules
+    function isSuperAdmin() {
+      return request.auth.token.role == 'superadmin';
+    }
+    function isAuthority() {
+      return request.auth.token.role == 'authority';
+    }
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Citizen user profiles
+    match /users/{userId} {
+      // Allow anyone to read user docs (for login/register email check)
+      allow read: if true;
+      allow write: if isOwner(userId);
+    }
+
+    // Authority user profiles
+    match /authorities/{userId} {
+      allow read: if isSuperAdmin() || isOwner(userId);
+      allow create, update: if isSuperAdmin();
+    }
+
+    // Active issues collection
+    match /issues/{issueId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null; // Rule fixed based on your feedback
+      allow update: if isAuthority() || isSuperAdmin();
+      allow delete: if isAuthority() || isSuperAdmin(); // Allows rejection
+    }
+
+    // Archived issues collection
+    match /resolved_issues/{issueId} {
+      allow read: if isAuthority() || isSuperAdmin();
+      allow create: if isAuthority() || isSuperAdmin(); // Allows archiving
+      allow write: if false; // Nobody can edit an archive entry
+    }
+  }
+}

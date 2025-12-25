@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "745464196938",
+    "project_id": "fixmyooru",
+    "storage_bucket": "fixmyooru.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745464196938:android:3866274a7a58240acddbb3",
+        "android_client_info": {
+          "package_name": "in.fixmyooru.app.fixmyooru"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo3AevH1PzYTHXp0og4lasM7XkonXW5bE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
