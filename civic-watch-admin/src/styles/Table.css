@@ -1,0 +1,65 @@
+.date-group {
+  margin-bottom: 32px;
+}
+.date-group-header {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  font-weight: 500;
+  font-size: 1rem;
+}
+.issues-table-container {
+  overflow-x: auto;
+}
+.issues-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.issues-table th, .issues-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  vertical-align: middle;
+}
+.issues-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.issues-table thead th {
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.issue-reporter-cell {
+  display: flex;
+  flex-direction: column;
+}
+.reporter-name {
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface);
+}
+.reporter-date, .resolved-date {
+  font-size: 0.85rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.status-Submitted { background-color: #E3F2FD; color: #1565C0; }
+.status-OnHold { background-color: #FFF3E0; color: #EF6C00; }
+.status-InProgress, .status-Approved { background-color: #E8EAF6; color: #3949AB; }
+[data-theme="dark"] .status-Submitted { background-color: #0D47A1; color: #BBDEFB; }
+[data-theme="dark"] .status-OnHold { background-color: #E65100; color: #FFE0B2; }
+[data-theme="dark"] .status-InProgress, [data-theme="dark"] .status-Approved { background-color: #3F51B5; color: #C5CAE9; }
+
+.no-issues-card {
+  text-align: center;
+  padding: 48px;
+  color: var(--md-sys-color-on-surface-variant);
+}

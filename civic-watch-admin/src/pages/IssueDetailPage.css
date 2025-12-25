@@ -1,0 +1,29 @@
+.issue-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.issue-detail-left-col img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+.issue-detail-info-card {
+  padding: 24px;
+}
+.detail-list {
+  display: grid;
+  gap: 12px;
+}
+.detail-list dt {
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.9rem;
+}
+.detail-list dd {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--md-sys-color-on-surface);
+}

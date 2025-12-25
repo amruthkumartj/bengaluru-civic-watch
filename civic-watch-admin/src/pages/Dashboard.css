@@ -1,0 +1,69 @@
+.dashboard-page h1 {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 24px;
+  color: var(--md-sys-color-on-surface);
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+.card {
+  background-color: var(--md-sys-color-surface-container-high);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  padding: 24px;
+}
+.large-card {
+  grid-column: span 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 1024px) {
+  .large-card {
+    grid-column: span 2;
+  }
+}
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.recent-issues-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+.recent-issue-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--md-sys-color-on-surface);
+  transition: background-color 0.2s;
+}
+.recent-issue-item:hover {
+  background-color: var(--md-sys-color-secondary-container);
+}
+.issue-info { display: flex; flex-direction: column; }
+.issue-type { font-weight: 500; }
+.issue-time { font-size: 0.85rem; color: var(--md-sys-color-on-surface-variant); }
+.no-issues-message { padding: 24px; text-align: center; color: var(--md-sys-color-on-surface-variant); font-size: 1rem; }
+.chart-wrapper { position: relative; height: 280px; width: 100%; }
+.chart-center-text { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+.chart-number { display: block; font-size: 2.5rem; font-weight: 700; color: var(--md-sys-color-on-surface); }
+.chart-total { font-size: 0.9rem; color: var(--md-sys-color-on-surface-variant); }
+.quick-shortcuts { margin-top: 24px; padding-top: 16px; }
+.quick-shortcuts h4 { font-size: 1.1rem; font-weight: 500; margin-bottom: 12px; color: var(--md-sys-color-on-surface-variant); }
+.shortcut-link { display: block; padding: 10px 4px; color: var(--md-sys-color-primary); text-decoration: none; font-weight: 500; border-radius: 8px; transition: background-color 0.2s; }
+.shortcut-link:hover { background-color: var(--md-sys-color-primary-container); }
+.card-background-icon { position: absolute; bottom: 20px; right: 20px; font-size: 120px; color: var(--md-sys-color-surface-variant); opacity: 0.5; z-index: 0; pointer-events: none; }
+.card-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--md-sys-color-surface-variant); font-size: 0.85rem; color: var(--md-sys-color-on-surface-variant); z-index: 1; }
+.card-footer p { margin: 0; }

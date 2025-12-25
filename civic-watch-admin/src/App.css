@@ -1,0 +1,115 @@
+.login-page-wrapper {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--md-sys-color-background);
+  padding: 20px;
+}
+.login-form-container {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  background-color: var(--md-sys-color-surface);
+  padding: 32px 40px;
+  border-radius: 28px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+.login-header {
+  margin-bottom: 32px;
+}
+.logo-icon {
+  display: inline-flex;
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  padding: 12px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+.login-header h2 {
+  color: var(--md-sys-color-on-surface);
+  font-weight: 500;
+  font-size: 1.75rem;
+}
+.login-header p {
+  color: var(--md-sys-color-on-surface-variant);
+  margin-top: 4px;
+  font-size: 1rem;
+}
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.input-group input {
+  width: 100%;
+  border: 1px solid var(--md-sys-color-on-surface-variant);
+  border-radius: 16px;
+  padding: 16px;
+  background-color: transparent;
+  color: var(--md-sys-color-on-surface);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+.input-group label {
+  position: absolute;
+  top: 17px;
+  left: 17px;
+  font-size: 1rem;
+  color: var(--md-sys-color-on-surface-variant);
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background-color: var(--md-sys-color-surface);
+  padding: 0 4px;
+}
+.input-group input:focus {
+  outline: none;
+  border-color: var(--md-sys-color-primary);
+}
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -9px;
+  left: 12px;
+  font-size: 0.8rem;
+  color: var(--md-sys-color-primary);
+}
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 100px;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  width: 100%;
+  margin-top: 1rem;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+.button:hover:not(:disabled) {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.button:disabled {
+  background-color: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: not-allowed;
+}
+.error-message { color: var(--md-sys-color-error); margin-top: 16px; font-size: 0.9rem; }
+.status-message { color: #388e3c; margin-top: 16px; font-size: 0.9rem;}
+.login-footer {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  padding-top: 1.5rem;
+}
+.password-reset-link {
+  color: var(--md-sys-color-primary);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
