@@ -107,7 +107,13 @@ flutter pub get
 
 ## Screenshots :camera:
 
-> _Add screenshots here_
+![Customize](https://github.com/user-attachments/assets/f779a0dd-65db-4592-84f5-1c144c843c95)
+<br>
+<br>
+---
+![Customize (1)](https://github.com/user-attachments/assets/4e5210be-3071-4422-8ad2-9767c23d5a6a)
+
+
 
 ---
 
